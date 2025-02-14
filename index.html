@@ -2,123 +2,170 @@
 <html>
 <head>
   <title>Professional Website</title>
-  <!-- Importing Roboto Font -->
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-  <!-- Importing Font Awesome for Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
-    /* Dark Mode Zero Theme with Roboto Font */
     body {
       background-color: #1E1E1E;
       color: #D4D4D4;
       font-family: 'Roboto', sans-serif;
-      margin: 0;
-      padding: 0;
     }
-
-    /* Navbar */
-    nav {
-      background-color: #252526;
-      padding: 10px 20px;
+    header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      padding: 20px;
+      background: #252526;
     }
-
-    nav a {
-      color: #D4D4D4;
-      text-decoration: none;
-      margin: 0 15px;
-      font-weight: 500;
-    }
-
-    nav a:hover {
-      color: #569CD6;
-    }
-
-    /* Tools Dropdown */
-    .dropdown {
-      position: relative;
-      display: inline-block;
-    }
-
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      background-color: #252526;
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-      min-width: 160px;
-      z-index: 1;
-    }
-
-    .dropdown-content a {
-      color: #D4D4D4;
-      padding: 12px 16px;
-      text-decoration: none;
-      display: block;
-    }
-
-    .dropdown-content a:hover {
-      background-color: #3C3C3C;
-    }
-
-    .dropdown:hover .dropdown-content {
-      display: block;
-    }
-
-    /* Username Style */
     .username {
       color: #9CDCFE;
       font-weight: 700;
     }
-
-    /* Footer Links */
-    .footer {
+    nav {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+    nav a {
+      color: #569CD6;
+      text-decoration: none;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+    .tools-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+    .tools-dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #252526;
+      box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+      z-index: 1;
+    }
+    .tools-dropdown-content a {
+      color: #569CD6;
+      padding: 8px 16px;
+      text-decoration: none;
+      display: block;
+    }
+    .tools-dropdown-content a:hover {
+      background-color: #3C3C3C;
+    }
+    .tools-dropdown:hover .tools-dropdown-content {
+      display: block;
+    }
+    .color-picker {
+      padding: 20px;
+    }
+    .color-output {
+      margin-top: 10px;
+      padding: 10px;
+      background: #333;
+      color: white;
+      border-radius: 5px;
+    }
+    footer {
       text-align: center;
       padding: 20px;
-      background-color: #252526;
+      background: #252526;
       color: #D4D4D4;
       position: fixed;
-      bottom: 0;
       width: 100%;
-    }
-
-    .footer a {
-      color: #033dfc;
-      text-decoration: none;
-      margin: 0 10px;
-    }
-
-    .footer a:hover {
-      text-decoration: underline;
+      bottom: 0;
     }
   </style>
 </head>
 <body>
-  <nav>
-    <span class="username">1terrygoodmonke</span>
-    <div class="dropdown">
-      <a href="#">Tools</a>
-      <div class="dropdown-content">
-        <a href="#" onclick="openTool('colorPicker')">Color Picker</a>
-        <a href="#" onclick="openTool('questFryer')">Quest Fryer</a>
+  <header>
+    <span class="username">1terrygoodmonke</span> |
+    <nav style="margin-left: auto;"><div class="tools-dropdown">
+        <a href="#">Tools</a>
+        <div class="tools-dropdown-content">
+          <a href="#" onclick="showColorPicker()">Color Picker</a>
+          <a href="https://1terrygoodcoder.github.io/QuestFryer/" target="_blank">Quest Fryer</a>
+        </div>
       </div>
-    </div>
-  </nav>
-
-  <!-- Footer -->
-  <div class="footer">
-    Made by <span class="username">1terrygoodmonke</span> on Discord :D<br>
+    </nav>
+  </header>
+  <main>
+    <section class="color-picker" id="color-picker" style="display: none;">
+      <h2>Color Picker</h2>
+      <input type="color" id="colorInput">
+      <input type="range" id="hueSlider" min="0" max="360" value="0">
+      <p>Hex Code: <span id="hexCode">#000000</span></p>
+      <p>RGB: <span id="rgbValues">0, 0, 0</span></p>
+      <button onclick="pickFromImage()">Pick Color from Image</button>
+      <input type="file" id="imageInput" accept="image/*" style="display:none;">
+      <canvas id="imageCanvas" style="display:none;"></canvas>
+      <div class="color-output" id="colorOutput"></div>
+    </section>
+  </main>
+  <footer>
+    Made by <span class="username">1terrygoodmonke</span>
+    <br>
     <a href="https://discord.com/users/1285697154958233664" target="_blank">Discord Profile</a> | 
     <a href="https://discord.gg/nqyE7gN3KJ" target="_blank">Discord Server</a>
-  </div>
-
+  </footer>
   <script>
-    function openTool(tool) {
-      alert('Opening ' + tool);
-      // Here you would implement the popup logic for each tool
+    function showColorPicker() {
+      document.getElementById('color-picker').style.display = 'block';
     }
+    var colorInput = document.getElementById('colorInput');
+    var hueSlider = document.getElementById('hueSlider');
+    var hexCode = document.getElementById('hexCode');
+    var rgbValues = document.getElementById('rgbValues');
+    var colorOutput = document.getElementById('colorOutput');
+
+    colorInput.addEventListener('input', function() {
+      hexCode.innerText = colorInput.value;
+      var rgb = hexToRgb(colorInput.value);
+      rgbValues.innerText = rgb.r + ', ' + rgb.g + ', ' + rgb.b;
+      colorOutput.style.backgroundColor = colorInput.value;
+    });
+
+    function hexToRgb(hex) {
+      var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+      hex = hex.replace(shorthandRegex, function(m, r, g, b) {
+        return r + r + g + g + b + b;
+      });
+      var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+      return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+      } : null;
+    }
+
+    function pickFromImage() {
+      document.getElementById('imageInput').click();
+    }
+
+    document.getElementById('imageInput').addEventListener('change', function(event) {
+      var reader = new FileReader();
+      reader.onload = function() {
+        var img = new Image();
+        img.onload = function() {
+          var canvas = document.getElementById('imageCanvas');
+          canvas.width = img.width;
+          canvas.height = img.height;
+          var ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0);
+          canvas.style.display = 'block';
+          canvas.addEventListener('click', function(e) {
+            var x = e.offsetX;
+            var y = e.offsetY;
+            var pixel = ctx.getImageData(x, y, 1, 1).data;
+            var hex = rgbToHex(pixel[0], pixel[1], pixel[2]);
+            hexCode.innerText = hex;
+            rgbValues.innerText = pixel[0] + ', ' + pixel[1] + ', ' + pixel[2];
+            colorOutput.style.backgroundColor = hex;
+          });
+        }
+        img.src = reader.result;
+      }
+      reader.readAsDataURL(event.target.files[0]);
+    });
   </script>
 </body>
 </html>
