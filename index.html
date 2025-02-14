@@ -74,6 +74,15 @@
       width: 100%;
       bottom: 0;
     }
+    .footer a {
+      color: #033dfc;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
@@ -92,7 +101,6 @@
     <section class="color-picker" id="color-picker" style="display: none;">
       <h2>Color Picker</h2>
       <input type="color" id="colorInput">
-      <input type="range" id="hueSlider" min="0" max="360" value="0">
       <p>Hex Code: <span id="hexCode">#000000</span></p>
       <p>RGB: <span id="rgbValues">0, 0, 0</span></p>
       <button onclick="pickFromImage()">Pick Color from Image</button>
